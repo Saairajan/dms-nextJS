@@ -49,7 +49,7 @@ export default function Blog() {
     };
 
 
-    const headers = ["ID", "First Name", "PickUp Time", "Delivery Time", "Items", "Status", "Driver", "Payment Status", "Actions"];
+    const headers = ["ID", "Name", "Phone Number", "PickUp Time", "Delivery Time", "Items", "Status", "Driver", "Payment Status", "Actions"];
 
 
     return (
@@ -109,7 +109,7 @@ export default function Blog() {
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="whitespace-nowrap  py-4 text-sm text-gray-500 text-center">{row.phoneNumber}</td>
+                                        <td className="whitespace-nowrap  py-4 text-sm text-gray-500 text-center">{row.phoneNo}</td>
                                         <td className="whitespace-nowrap  py-4 text-sm text-gray-500 text-center">{row.pickUpTime}</td>
                                         <td className="whitespace-nowrap  py-4 text-sm text-gray-500 text-center">{row.deliveryTime}</td>
                                         <td className="whitespace-nowrap py-4 text-sm text-gray-500 text-center">
@@ -118,7 +118,7 @@ export default function Blog() {
                                             ))}
                                         </td>
                                         <td className="whitespace-nowrap  py-4 text-sm text-gray-500 text-center">{row.orderStatus}</td>
-                                        <td className="whitespace-nowrap  py-4 text-sm text-gray-500 text-center">{row.driver}</td>
+                                        <td className="whitespace-nowrap  py-4 text-sm text-gray-500 text-center">{row.driverName}</td>
                                         <td className="whitespace-nowrap  py-4 text-sm text-gray-500 text-center">{row.paymentStatus}</td>
                                         <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6 lg:pr-2">
                                             <div className="flex justify-center items-center space-x-3">

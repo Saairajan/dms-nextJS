@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="3e79bc25-426e-44f5-b6c2-bcc1a378c3c4" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Models/Drivers.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/NewDriverForm/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Models/Orders.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Models/Orders.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/calender/index.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/dashboard/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/dashboard/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/driver/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/driver/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/login/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/login/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/order/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/order/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/recipient/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/recipient/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/registration/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/registration/index.tsx" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Remnant12&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Remnant12/DOMS.git&quot;,
+    &quot;accountId&quot;: &quot;1c27f65c-1178-4b65-b5dd-2b370ef9c6f0&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
+  <component name="ProjectId" id="2i5iCySHdeZLgoWnLfT7L4BjhyG" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/home/saai/Documents/Work/SkilzMatrixProject/hrms-pms",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "/home/saai/Documents/Work/Our OWn/github/DOMS/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-WS-241.18034.50" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="3e79bc25-426e-44f5-b6c2-bcc1a378c3c4" name="Changes" comment="" />
+      <created>1718786714451</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1718786714451</updated>
+      <workItem from="1718786715618" duration="1007000" />
+      <workItem from="1718788974668" duration="13000" />
+      <workItem from="1718860885346" duration="1648000" />
+      <workItem from="1718862676794" duration="1585000" />
+      <workItem from="1718879594470" duration="68000" />
+      <workItem from="1718900453015" duration="406000" />
+      <workItem from="1718948806362" duration="208000" />
+      <workItem from="1718956670428" duration="842000" />
+      <workItem from="1718959239012" duration="803000" />
+      <workItem from="1718960126356" duration="273000" />
+      <workItem from="1718960772436" duration="9309000" />
+      <workItem from="1719017267244" duration="25000" />
+      <workItem from="1719017385419" duration="649000" />
+      <workItem from="1719018192733" duration="621000" />
+      <workItem from="1720294037353" duration="181000" />
+      <workItem from="1720582304728" duration="15000" />
+      <workItem from="1721290279945" duration="4609000" />
+      <workItem from="1721295342885" duration="3811000" />
+      <workItem from="1721628956856" duration="15000" />
+      <workItem from="1721897275186" duration="784000" />
+      <workItem from="1721973331191" duration="211000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

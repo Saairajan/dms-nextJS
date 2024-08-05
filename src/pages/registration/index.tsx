@@ -1,7 +1,7 @@
 export default function Registration() {
     return (
         <div className="isolate bg-white px-6 py-5 sm:py-5 lg:px-8 md:w-full rounded-lg mx-3">
-            <div className="mx-auto max-w-2xl text-center">
+            <div className="mx-auto text-left">
                 <h2 className="text-lg tracking-tight text-gray-900 sm:text-4xl">Registration Form</h2>
             </div>
             <form action="#" method="POST" className="mt-4 w-full ">

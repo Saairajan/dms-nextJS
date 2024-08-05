@@ -1,73 +1,54 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import OrderInfo from "@/components/OrderInfo";
 
 
 export default function Blog() {
+    let [showDriverForm, setShowDriverForm] = useState(false);
+    let [showDriverInfo, setShowDriverInfo] = useState(false);
 
-    const headers = ["ID", "Name", "Phone", "Email", "Vehicle Type", "License Number", "Current Location", "Availability", "Shift-Start Time", "Shift-End Time", "Edit"];
+    const toggleDriverForm = () => {
+        setShowDriverForm(!showDriverForm);
+    };
+
+
+    const headers = ["ID", "Name", "Phone", "Email", "Vehicle Type", "License Number", "Address", "Availability", "Shift-Start Time", "Shift-End Time", "Action"];
+
 
     // Array for table data
-    const data = [
-        {
-            id: "101",
-            name: "Alice Johnson",
-            contactNumber: "555-1234",
-            email: "alice.johnson@example.com",
-            vehicleType: "Car",
-            licenseNumber: "AB123456",
-            currentLocation: "123 Maple Street, Springfield",
-            availability: "Available",
-            shiftStartTime: "08:00",
-            shiftEndTime: "16:00"
-        },
-        {
-            id: "102",
-            name: "Bob Smith",
-            contactNumber: "555-5678",
-            email: "bob.smith@example.com",
-            vehicleType: "Bike",
-            licenseNumber: "XY789012",
-            currentLocation: "456 Oak Avenue, Metropolis",
-            availability: "Unavailable",
-            shiftStartTime: "09:00",
-            shiftEndTime: "17:00"
-        },
-        {
-            id: "103",
-            name: "Charlie Brown",
-            contactNumber: "555-8765",
-            email: "charlie.brown@example.com",
-            vehicleType: "Truck",
-            licenseNumber: "CD345678",
-            currentLocation: "789 Pine Road, Smallville",
-            availability: "Available",
-            shiftStartTime: "10:00",
-            shiftEndTime: "18:00"
-        },
-        {
-            id: "104",
-            name: "Dana White",
-            contactNumber: "555-4321",
-            email: "dana.white@example.com",
-            vehicleType: "Car",
-            licenseNumber: "EF901234",
-            currentLocation: "101 Birch Lane, Gotham",
-            availability: "Available",
-            shiftStartTime: "11:00",
-            shiftEndTime: "19:00"
-        }
-        // Add more data objects as needed
-    ];
+    const [drivers, setDrivers] = useState<Driver[]>([]);
+    useEffect(() => {
+        fetch('http://localhost:5025/drivers')
+            .then(response => response.json())
+            .then(data => setDrivers(data))
+            .catch(error => console.error('Error fetching orders:', error));
+    }, []);
 
 
     return (
         <div className="px-4 sm:px-6 lg:px-4">
+
+            {/*{showDriverInfo &&*/}
+            {/*    <div>*/}
+            {/*        <div onClick={() => setShowDriverInfo(false)}*/}
+            {/*             className='absolute top-0 left-0 z-40 w-screen h-screen bg-black/20 '></div>*/}
+            {/*        <div className="absolute left-0 right-0 top-0 flex items-center justify-end ">*/}
+            {/*            <div className="bg-white z-50 rounded-lg shadow-md w-1/2">*/}
+            {/*                <OrderInfo orderId={selectedDriverId}/>*/}
+            {/*            </div>*/}
+            {/*        </div>*/}
+            {/*    </div>*/}
+            {/*}*/}
+
+
             {/*{showOrderForm && <components />}*/}
             <div className="md:flex md:items-center md:justify-end bg-white shadow-md md:p-4 -mx-4 sm:-mx-6 md:-mx-8">
                 <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-                    <button type="button"
-                            className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add
-                        Driver
-                    </button>
+                    <a href="/NewDriverForm">
+                        <button type="button" onClick={toggleDriverForm}
+                                className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Add
+                            Driver
+                        </button>
+                    </a>
                 </div>
             </div>
             <div className="mt-3 flow-root ">
@@ -88,16 +69,16 @@ export default function Blog() {
                             </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200 bg-white">
-                            {data.map((row, rowIndex) => (
+                            {drivers.map((row, rowIndex) => (
                                 <tr key={rowIndex}>
                                     <td className="whitespace-nowrap text-center py-4 pl-2 pr-3 text-sm font-medium text-gray-900 sm:pl-6 lg:pl-4">{row.id}</td>
                                     <td className="whitespace-nowrap text-center pl-2 py-4 text-sm text-gray-500">{row.name}</td>
-                                    <td className="whitespace-nowrap text-center py-4 text-sm text-gray-500">{row.contactNumber}</td>
+                                    <td className="whitespace-nowrap text-center py-4 text-sm text-gray-500">{row.phone}</td>
                                     <td className="whitespace-nowrap text-center py-4 text-sm text-gray-500">{row.email}</td>
                                     <td className="whitespace-nowrap text-center py-4 text-sm text-gray-500">{row.vehicleType}</td>
                                     <td className="whitespace-nowrap text-center py-4 text-sm text-gray-500">{row.licenseNumber}</td>
                                     <td className="whitespace-nowrap text-center py-4 text-sm text-gray-500">{row.currentLocation}</td>
-                                    <td className="whitespace-nowrap text-center py-4 text-sm text-gray-500">{row.availability}</td>
+                                    <td className="whitespace-nowrap text-center py-4 text-sm text-gray-500">{row.availability ? "Available" : "Unavailable"}</td>
                                     <td className="whitespace-nowrap text-center py-4 text-sm text-gray-500">{row.shiftStartTime}</td>
                                     <td className="whitespace-nowrap text-center py-4 text-sm text-gray-500">{row.shiftEndTime}</td>
                                     <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6 lg:pr-8">

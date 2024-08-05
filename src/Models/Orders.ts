@@ -3,7 +3,7 @@ interface Order {
     firstName: string;
     lastName: string;
     email: string;
-    phoneNumber: string;
+    phoneNo: string;
     pickUpAddress: string;
     pickUpTime: string;
     deliveryAddress: string;
@@ -12,7 +12,7 @@ interface Order {
     itemName: string;
     total: number;
     orderStatus: string;
-    driver: string;
+    driverName: string;
     distance: number;
     overallWeight: number;
     overallVolume: number;
