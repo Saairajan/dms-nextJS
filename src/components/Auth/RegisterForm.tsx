@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import {useRouter} from "next/router";
+import axios from "axios";
+import {registerUser} from "@/Services/api";
 
 
-export default function Registration() {
+const RegisterForm: React.FC = () => {
     const router = useRouter();
     const [isUpdating, setIsUpdating] = useState(false);
     const id = router.query.id;
@@ -24,27 +26,22 @@ export default function Registration() {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
+        console.log('Registration Handle Submit method triggered');
         if (formData.Password !== rePassword) {
             console.error('Passwords do not match');
             // Optionally: show error message to user
             return;
         }
-        
+
         console.log('Form Data:', formData);
         try {
 
-            const method = isUpdating ? 'PUT' : 'POST';
-            const url = isUpdating ? `http://localhost:5025/api/Users/${id}` : 'http://localhost:5025/api/Users';
-            const response = await fetch(url, {
-                method,
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
+            // const method = isUpdating ? 'PUT' : 'POST';
+            // const url = isUpdating ? `http://localhost:5025/api/Users/${id}` : 'http://localhost:5025/api/Users';
 
-            if (response.ok) {
+            const response = await registerUser(formData);
+
+            if (response.data) {
                 console.log(`User ${isUpdating ? 'updated' : 'Registered'} successfully!`);
                 // Optionally: Reset the form after successful submission
                 setFormData({
@@ -61,7 +58,7 @@ export default function Registration() {
                 });
                 setShowForm(false);
             } else {
-                console.error(`Failed to ${isUpdating ? 'update' : 'create'} order:`, await response.text());
+                console.error(`Failed to ${isUpdating ? 'update' : 'create'} order:`, await response.data);
                 // Handle error scenario: show error message to user
             }
         } catch (error) {
@@ -81,7 +78,7 @@ export default function Registration() {
     const handleRePasswordChange = (e: any) => {
         setRePassword(e.target.value);
     };
-    
+
     return (
         <div className="isolate bg-white px-6 py-5 sm:py-5 lg:px-8 md:w-full rounded-lg mx-3">
             <div className="mx-auto text-left">
@@ -94,7 +91,7 @@ export default function Registration() {
                         <label htmlFor="first-name" className="block text-sm font-semibold leading-6 text-gray-900">First
                             name</label>
                         <div className="mt-2.5">
-                            <input type="text" name="FirstName" id="first-name" autoComplete="given-name"
+                            <input type="text" name="FirstName" id="FirstName" autoComplete="given-name" onChange={handleChange}
                                    className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                         </div>
                     </div>
@@ -102,7 +99,7 @@ export default function Registration() {
                         <label htmlFor="last-name" className="block text-sm font-semibold leading-6 text-gray-900">Last
                             name</label>
                         <div className="mt-2.5">
-                            <input type="text" name="LastName" id="last-name" autoComplete="family-name"
+                            <input type="text" name="LastName" id="LastName" autoComplete="family-name" onChange={handleChange}
                                    className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                         </div>
                     </div>
@@ -110,7 +107,7 @@ export default function Registration() {
                         <label htmlFor="first-name"
                                className="block text-sm font-semibold leading-6 text-gray-900">Email</label>
                         <div className="mt-2.5">
-                            <input type="text" name="Email" id="first-name" autoComplete="given-name"
+                            <input type="text" name="Email" id="Email" autoComplete="given-name" onChange={handleChange}
                                    className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                         </div>
                     </div>
@@ -133,7 +130,7 @@ export default function Registration() {
                                           clip-rule="evenodd"/>
                                 </svg>
                             </div>
-                            <input type="text" name="phone-number" id="phone-number" autoComplete="tel"
+                            <input type="text" name="PhoneNumber" id="PhoneNumber" autoComplete="tel" onChange={handleChange}
                                    className="block w-full  border-0 px-3.5 py-2 pl-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                         </div>
                     </div>
@@ -143,7 +140,7 @@ export default function Registration() {
                         <label htmlFor="message"
                                className="block text-sm font-semibold leading-6 text-gray-900">Address</label>
                         <div className="mt-2.5">
-                            <textarea name="Address" id="message"
+                            <textarea name="Address" id="message" onChange={handleChange}
                                       className="block w-full h-[40px] border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>
                         </div>
                     </div>
@@ -154,7 +151,7 @@ export default function Registration() {
                         <div className="mt-2.5">
                             <label htmlFor="company"
                                    className="block text-sm leading-6 text-gray-900">Country</label>
-                            <input type="text" name="Country" id="company" autoComplete="organization"
+                            <input type="text" name="Country" id="Country" autoComplete="organization" onChange={handleChange}
                                    className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                         </div>
                         <div className=" grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
@@ -162,7 +159,7 @@ export default function Registration() {
                                 <label htmlFor="company"
                                        className="block text-sm leading-6 text-gray-900">Province</label>
                                 <div className="mt-2.5">
-                                    <input type="text" name="Province" id="company" autoComplete="organization"
+                                    <input type="text" name="Province" id="Province" autoComplete="organization" onChange={handleChange}
                                            className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                                 </div>
                             </div>
@@ -170,7 +167,7 @@ export default function Registration() {
                                 <label htmlFor="company"
                                        className="block text-sm leading-6 text-gray-900">City</label>
                                 <div className="mt-2.5">
-                                    <input type="text" name="City" id="company" autoComplete="organization"
+                                    <input type="text" name="City" id="City" autoComplete="organization" onChange={handleChange}
                                            className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                                 </div>
                             </div>
@@ -178,20 +175,10 @@ export default function Registration() {
                                 <label htmlFor="company"
                                        className="block text-sm leading-6 text-gray-900">Postal</label>
                                 <div className="mt-2.5">
-                                    <input type="text" name="PostalCode" id="company" autoComplete="organization"
+                                    <input type="text" name="PostalCode" id="PostalCode" autoComplete="organization" onChange={handleChange}
                                            className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                                 </div>
                             </div>
-                            {/*<div>*/}
-                            {/*    <div className="sm:col-span-2">*/}
-                            {/*        <label htmlFor="message"*/}
-                            {/*               className="block text-sm font-semibold leading-6 text-gray-900">Message</label>*/}
-                            {/*        <div className="mt-2.5">*/}
-                            {/*<textarea name="message" id="message"*/}
-                            {/*          className="block w-full h-[40px] border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"></textarea>*/}
-                            {/*        </div>*/}
-                            {/*    </div>*/}
-                            {/*</div>*/}
                         </div>
                     </div>
                     <div className="sm:col-span-2">
@@ -200,7 +187,7 @@ export default function Registration() {
                         <div className="mt-2.5">
                             <label htmlFor="email"
                                    className="block text-sm leading-6 text-gray-900">Password</label>
-                            <input type="password" name="Password" id="email" autoComplete="email"
+                            <input type="password" name="Password" id="Password" autoComplete="Password" onChange={handleChange}
                                    className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                         </div>
                     </div>
@@ -208,7 +195,7 @@ export default function Registration() {
                         <label htmlFor="email"
                                className="block text-sm leading-6 text-gray-900">Re-Enter Password</label>
                         <div className="mt-2.5">
-                            <input type="password" name="Re-Password" id="email" autoComplete="email"
+                            <input type="password" name="Re-Password" id="Re-Password" autoComplete="email" onChange={handleRePasswordChange}
                                    className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                         </div>
                     </div>
@@ -238,3 +225,5 @@ export default function Registration() {
         </div>
     );
 }
+
+export default RegisterForm;
