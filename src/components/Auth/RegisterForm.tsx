@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {useRouter} from "next/router";
 
 
@@ -24,6 +24,13 @@ export default function Registration() {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        if (formData.Password !== rePassword) {
+            console.error('Passwords do not match');
+            // Optionally: show error message to user
+            return;
+        }
+        
         console.log('Form Data:', formData);
         try {
 
@@ -38,7 +45,7 @@ export default function Registration() {
             });
 
             if (response.ok) {
-                console.log(`Order ${isUpdating ? 'updated' : 'created'} successfully!`);
+                console.log(`User ${isUpdating ? 'updated' : 'Registered'} successfully!`);
                 // Optionally: Reset the form after successful submission
                 setFormData({
                     FirstName: '',
@@ -58,9 +65,21 @@ export default function Registration() {
                 // Handle error scenario: show error message to user
             }
         } catch (error) {
-            console.error('Error ${isUpdating ? \'updating\' : \'creating\'} order:', error);
+            console.error('Error ${isUpdating ? \'updating\' : \'Registering\'} user:', error);
             // Handle error scenario: show error message to user
         }
+    };
+
+    const handleChange = (e: any) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    };
+
+    const handleRePasswordChange = (e: any) => {
+        setRePassword(e.target.value);
     };
     
     return (
