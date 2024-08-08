@@ -1,4 +1,42 @@
+import React, {useState} from "react";
+import {loginUser, registerUser} from "@/Services/api";
+
 export default function LoginPage() {
+    const [formData, setFormData] = useState({
+        Email: '',
+        Password: '',
+    });
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        try {
+            const response = await loginUser(formData);
+
+            if (response.data) {
+                console.log('User logged in successfully!');
+                // Implement successful login logic here (e.g., redirect, store tokens)
+            } else {
+                console.error('Login failed:', response.data);
+                // Handle login errors (e.g., display error message to user)
+            }
+        } catch (error) {
+            console.error('Error logging in user:', error);
+            // Handle errors (e.g., network issues, invalid credentials)
+        }
+    };
+
+    // ... other component code
+
+
+    const handleChange = (e: any) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    };
+
     return (
         <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8">
             <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -10,12 +48,12 @@ export default function LoginPage() {
 
             <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-[480px]">
                 <div className="bg-white px-6 py-12 shadow sm:rounded-lg sm:px-12">
-                    <form className="space-y-6" action="#" method="POST">
+                    <form className="space-y-6" action="#" method="POST" onSubmit={handleSubmit}>
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Email
                                 address</label>
                             <div className="mt-2">
-                                <input id="email" name="email" type="email" auto-complete="email" required
+                                <input id="email" name="email" type="email" auto-complete="email" required onChange={handleChange}
                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                             </div>
                         </div>
@@ -24,7 +62,7 @@ export default function LoginPage() {
                             <label htmlFor="password"
                                    className="block text-sm font-medium leading-6 text-gray-900">Password</label>
                             <div className="mt-2">
-                                <input id="password" name="password" type="password" auto-complete="current-password"
+                                <input id="password" name="password" type="password" auto-complete="current-password" onChange={handleChange}
                                        required
                                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                             </div>
