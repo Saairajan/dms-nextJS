@@ -1,3 +1,5 @@
+"use client";
+
 import {useState} from "react";
 import WeekSignupsChart from "@/components/WeekChart";
 
@@ -51,7 +53,7 @@ export default function DashboardPage() {
     };
 
     return(
-        <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-1">
             <div
                 className="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800">
                 <div className="flex items-center justify-between mb-4">

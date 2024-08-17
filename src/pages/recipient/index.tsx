@@ -70,7 +70,7 @@ export default function Recipient() {
                 <div
                     className="md:flex md:items-center md:justify-end bg-white shadow-md md:p-4 -mx-4 sm:-mx-6 md:-mx-8">
                     <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-                        <a href="/NewOrderForm">
+                        <a href="/src/components/EntityForms/NewOrderForm">
                             <button type="button" onClick={toggleOrderForm}
                                     className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                                 <p>Add Order</p>

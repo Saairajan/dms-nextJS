@@ -1,13 +1,18 @@
-import Image from "next/image";
-import Link from "next/link";
-import React from "react";
+import {AppProps} from 'next/app';
+import RootLayout from "@/app/layout";
+import {router} from "next/client";
+import {useRouter} from "next/router";
 
-export default function Home() {
-  return (
-
-      <main className="flex flex-col items-center justify-between bg-lred-500">
-          <Link href="/src/pages/order">HELLO</Link>
-      </main>
-
-  );
+function MyApp({Component, pageProps}: AppProps) {
+    const router = useRouter()
+    const isLoginRoute = router.pathname === '/login';
+    return isLoginRoute ? (
+        <Component {...pageProps} />
+    ) : (
+        <RootLayout>
+            <Component {...pageProps} />
+        </RootLayout>
+    );
 }
+
+export default MyApp;

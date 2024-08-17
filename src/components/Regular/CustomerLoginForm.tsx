@@ -1,9 +1,11 @@
 "use client";
 
 import React, {useState} from "react";
-import {loginUser, registerUser} from "@/Services/api";
+import {loginCustomer, loginUser, registerUser} from "@/Services/api";
+import {useRouter} from "next/navigation";
 
-const LoginPage: React.FC = () =>  {
+const CustomerLoginPage: React.FC = () =>  {
+    const router = useRouter();
     const [formData, setFormData] = useState({
         Email: '',
         Password: '',
@@ -13,10 +15,11 @@ const LoginPage: React.FC = () =>  {
         e.preventDefault();
 
         try {
-            const response = await loginUser(formData);
+            const response = await loginCustomer(formData);
 
             if (response) {
-                console.log('User logged in successfully!');
+                console.log('Customer logged in successfully!');
+                router.push('/dashboard');
                 // Implement successful login logic here (e.g., redirect, store tokens)
             } else {
                 console.error('Login failed:', response.data);
@@ -49,7 +52,7 @@ const LoginPage: React.FC = () =>  {
                     </div>
                     <form className="space-y-6" action="#" method="POST" onSubmit={handleSubmit}>
                         <div>
-                        <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Email
+                            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">Email
                                 address</label>
                             <div className="mt-2">
                                 <input id="email" name="email" type="email" auto-complete="email" required
@@ -146,4 +149,4 @@ const LoginPage: React.FC = () =>  {
     );
 }
 
-export default LoginPage;
+export default CustomerLoginPage;

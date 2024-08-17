@@ -1,12 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
-import axios from "axios";
-import {registerUser} from "@/Services/api";
+import React, {useState} from "react";
 import {useRouter, useSearchParams} from "next/navigation";
+import {RegisterCustomer, registerUser} from "@/Services/api";
 
-
-const RegisterForm: React.FC = () => {
+const CustomerRegisterForm: React.FC = () => {
     const router = useRouter();
     const [isUpdating, setIsUpdating] = useState(false);
     const searchParams = useSearchParams();
@@ -15,15 +13,10 @@ const RegisterForm: React.FC = () => {
     const [rePassword, setRePassword] = useState('');
 
     const [formData, setFormData] = useState({
-        FirstName: '',
-        LastName: '',
+        FullName: '',
         Address: '',
         Email: '',
-        PhoneNumber: '',
-        Country   : '',
-        PostalCode: '',
-        Province: '',
-        City: '',
+        Phone: '',
         Password: '',
     });
 
@@ -39,21 +32,20 @@ const RegisterForm: React.FC = () => {
         console.log('Form Data:', formData);
         try {
 
-            const response = await registerUser(formData);
+            const response = await RegisterCustomer(formData);
 
             if (response.data) {
                 console.log(`User ${isUpdating ? 'updated' : 'Registered'} successfully!`);
                 // Optionally: Reset the form after successful submission
                 setFormData({
-                    FirstName: '',
-                    LastName: '',
+                    FullName: '',
                     Address: '',
                     Email: '',
-                    PhoneNumber: '',
-                    Country   : '',
-                    PostalCode: '',
-                    Province: '',
-                    City: '',
+                    Phone: '',
+                    // Country   : '',
+                    // PostalCode: '',
+                    // Province: '',
+                    // City: '',
                     Password: '',
                 });
                 setShowForm(false);
@@ -80,26 +72,17 @@ const RegisterForm: React.FC = () => {
     };
 
     return (
-        <div className="isolate bg-gray-100 shadow-md px-6 py-5 my-5 sm:py-5 lg:px-8 md:w-full rounded-lg  w-full max-w-4xl mx-auto">
+        <div className="isolate bg-gray-100 shadow-md px-6 py-5 mt-5 sm:py-5 lg:px-8 md:w-full rounded-lg w-full max-w-4xl mx-auto">
             <div className="mx-auto text-left">
-                <h2 className="text-lg tracking-tight text-gray-900 sm:text-4xl">Registration Form</h2>
+                <h2 className=" tracking-tight text-gray-900 mt-5 text-4xl">Registration Form</h2>
             </div>
             <form action="#" onSubmit={handleSubmit} method="POST" className="mt-4 w-full ">
                 <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
 
                     <div>
-                        <label htmlFor="first-name" className="block text-sm font-semibold leading-6 text-gray-900">First
-                            name</label>
+                        <label htmlFor="first-name" className="block text-sm font-semibold leading-6 text-gray-900">Name</label>
                         <div className="mt-2.5">
-                            <input type="text" name="FirstName" id="FirstName" autoComplete="given-name" onChange={handleChange}
-                                   className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
-                        </div>
-                    </div>
-                    <div>
-                        <label htmlFor="last-name" className="block text-sm font-semibold leading-6 text-gray-900">Last
-                            name</label>
-                        <div className="mt-2.5">
-                            <input type="text" name="LastName" id="LastName" autoComplete="family-name" onChange={handleChange}
+                            <input type="text" name="FullName" id="FullName" autoComplete="given-name" onChange={handleChange}
                                    className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                         </div>
                     </div>
@@ -130,7 +113,7 @@ const RegisterForm: React.FC = () => {
                                           clip-rule="evenodd"/>
                                 </svg>
                             </div>
-                            <input type="text" name="PhoneNumber" id="PhoneNumber" autoComplete="tel" onChange={handleChange}
+                            <input type="text" name="Phone" id="PhoneNumber" autoComplete="tel" onChange={handleChange}
                                    className="block w-full  border-0 px-3.5 py-2 pl-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                         </div>
                     </div>
@@ -145,42 +128,6 @@ const RegisterForm: React.FC = () => {
                         </div>
                     </div>
 
-                    <div className="sm:col-span-2">
-                        <label htmlFor="company"
-                               className="block text-sm font-semibold leading-6 text-gray-900">Country Session</label>
-                        <div className="mt-2.5">
-                            <label htmlFor="company"
-                                   className="block text-sm leading-6 text-gray-900">Country</label>
-                            <input type="text" name="Country" id="Country" autoComplete="organization" onChange={handleChange}
-                                   className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
-                        </div>
-                        <div className=" grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
-                            <div>
-                                <label htmlFor="company"
-                                       className="block text-sm leading-6 text-gray-900">Province</label>
-                                <div className="mt-2.5">
-                                    <input type="text" name="Province" id="Province" autoComplete="organization" onChange={handleChange}
-                                           className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
-                                </div>
-                            </div>
-                            <div>
-                                <label htmlFor="company"
-                                       className="block text-sm leading-6 text-gray-900">City</label>
-                                <div className="mt-2.5">
-                                    <input type="text" name="City" id="City" autoComplete="organization" onChange={handleChange}
-                                           className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
-                                </div>
-                            </div>
-                            <div>
-                                <label htmlFor="company"
-                                       className="block text-sm leading-6 text-gray-900">Postal</label>
-                                <div className="mt-2.5">
-                                    <input type="text" name="PostalCode" id="PostalCode" autoComplete="organization" onChange={handleChange}
-                                           className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div className="sm:col-span-2">
                         <label htmlFor="email"
                                className="block text-sm font-semibold leading-6 text-gray-900">Password Session</label>
@@ -227,4 +174,4 @@ const RegisterForm: React.FC = () => {
     );
 }
 
-export default RegisterForm;
+export default CustomerRegisterForm;
