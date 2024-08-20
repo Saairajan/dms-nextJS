@@ -91,7 +91,7 @@ export default function Blog() {
                                                 className="sr-only">, {row.id}</span>
                                             </a>
                                             
-                                            <a href="/order" className="text-indigo-600 hover:text-indigo-900">
+                                            <a href="/src/components/EntityTables/order/page" className="text-indigo-600 hover:text-indigo-900">
                                                 <i className="fas fa-trash-alt"></i><span
                                                 className="sr-only">, {row.id}</span>
                                             </a>

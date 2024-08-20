@@ -86,6 +86,10 @@ export const loginCustomer = async (loginData: {
 
         const token = response.data.token;
         console.log("JWT customer Token: " + token);
+        if(token){
+            localStorage.setItem("AuthToken", token);
+            console.log("JWT Token stored in local storage" + token);
+        }
         return response.data;
     } catch (error){
         console.error('Error Logging in Customer: ' + error);

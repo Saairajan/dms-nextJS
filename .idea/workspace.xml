@@ -5,26 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3e79bc25-426e-44f5-b6c2-bcc1a378c3c4" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/app/admin/login/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/login/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/order/newOrder/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/register/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Regular/CustomerLoginForm.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Regular/CustomerRegisterForm.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/order/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/.env" beforeDir="false" afterPath="$PROJECT_DIR$/src/.env" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Services/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services/api.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Auth/LoginForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Auth/LoginForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Auth/RegisterForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Auth/RegisterForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/NewOrderForm/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/EntityForms/NewOrderForm/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/auth/registration.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/admin/register/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/dashboard/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/login/index.tsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/order/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/order/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/order/newOrder/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/order/newOrder/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/EntityForms/NewOrderForm/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/EntityForms/NewOrderForm/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/driver/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/driver/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/order/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/EntityTables/order/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/recipient/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/recipient/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -59,7 +47,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/saai/Documents/Projects/DMS/dms-nextJS",
+    "last_opened_file_path": "/home/saai/Documents/Projects/portfolioWeb",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -72,6 +60,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/components/EntityTables" />
       <recent name="$PROJECT_DIR$/src/components/EntityForms" />
       <recent name="$PROJECT_DIR$/src/components/Regular" />
       <recent name="$PROJECT_DIR$/src/app/admin" />
@@ -127,7 +116,7 @@
       <workItem from="1723516986040" duration="632000" />
       <workItem from="1723673046415" duration="6241000" />
       <workItem from="1723785624327" duration="5693000" />
-      <workItem from="1723793872334" duration="30188000" />
+      <workItem from="1723793872334" duration="46458000" />
     </task>
     <servers />
   </component>

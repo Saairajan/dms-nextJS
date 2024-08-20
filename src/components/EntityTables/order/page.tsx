@@ -1,3 +1,6 @@
+"use client";
+
+
 import Link from "next/link";
 import {useEffect, useState} from "react";
 import OrderInfo from "@/components/OrderInfo";
@@ -5,7 +8,7 @@ import OrderInfo from "@/components/OrderInfo";
 // import OrderForm from "../../components/OrderForm";
 
 
-export default function Blog() {
+export default function Shipment() {
     let [showOrderForm, setShowOrderForm] = useState(false);
     let [showOrderInfo, setShowOrderInfo] = useState(false);
     const [error, setError] = useState(null);
@@ -128,7 +131,7 @@ export default function Blog() {
                                                 >
                                                     <i className="fas fa-edit"></i><span
                                                     className="sr-only">, {row.id}</span></a>
-                                                <a href="/order" className="text-indigo-600 hover:text-indigo-900"
+                                                <a href="/src/components/EntityTables/order/page" className="text-indigo-600 hover:text-indigo-900"
                                                    onClick={() => deleteOrder(Number(row.id))}><i
                                                     className="fas fa-trash-alt"></i><span
                                                     className="sr-only">, {row.id}</span></a>

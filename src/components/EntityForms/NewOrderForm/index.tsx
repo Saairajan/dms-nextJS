@@ -44,7 +44,7 @@ const OrderForm: React.FC = () => {
         RecipientAddress: '',
         ReceivingDate: '',
         Distance: 0,
-        items: [{
+        ShipmentItems: [{
             ProductName: '',
             ItemType: 'Durable',
             Weight: '',
@@ -57,10 +57,12 @@ const OrderForm: React.FC = () => {
         OverallVolume: 0,
     });
 
-    const token = localStorage.getItem('authToken');
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        const token = localStorage.getItem('AuthToken');
+
         e.preventDefault();
         console.log('Form Data:', formData);
+        console.log('token:', token);
         try {
 
             const method = isUpdating ? 'PUT' : 'POST';
@@ -86,7 +88,7 @@ const OrderForm: React.FC = () => {
                     RecipientAddress: '',
                     ReceivingDate: '',
                     Distance: 0,
-                    items: [{
+                    ShipmentItems: [{
                         ProductName: '',
                         ItemType: 'Durable',
                         Weight: '',
@@ -125,7 +127,7 @@ const OrderForm: React.FC = () => {
         //                 RecipientAddress: data.deliveryAddress,
         //                 ReceivingDate: data.deliveryTime,
         //                 Distance: data.distance,
-        //                 items: data.items.map((item: any) => ({
+        //                 ShipmentItems: data.ShipmentItems.map((item: any) => ({
         //                     ProductName: item.itemName,
         //                     itemType: item.itemType,
         //                     weight: item.weight,
@@ -163,7 +165,7 @@ const OrderForm: React.FC = () => {
                         RecipientAddress: data.RecipientAddress,
                         ReceivingDate: data.ReceivingDate,
                         Distance: data.Distance,
-                        items: data.items.map((item: any) => ({
+                        ShipmentItems: data.ShipmentItems.map((item: any) => ({
                             ProductName: item.ProductName,
                             itemType: item.itemType,
                             weight: item.weight,
@@ -190,26 +192,26 @@ const OrderForm: React.FC = () => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>, index?: number) => {
         const {name, value} = e.target;
 
-        if (name.startsWith('items')) {
+        if (name.startsWith('ShipmentItems')) {
             const index = parseInt(name.split('.')[1]); // Get the index of the item
-            const updatedItems = [...formData.items];
-            updatedItems[index] = {
-                ...updatedItems[index],
+            const updatedShipmentItems = [...formData.ShipmentItems];
+            updatedShipmentItems[index] = {
+                ...updatedShipmentItems[index],
                 [name.split('.')[2]]: value // Update the specific item field
             };
 
-            const weight = updatedItems[index].Weight || '0';
-            const volume = updatedItems[index].Volume || '0';
+            const weight = updatedShipmentItems[index].Weight || '0';
+            const volume = updatedShipmentItems[index].Volume || '0';
             const distance = parseFloat(String(formData.Distance)) || 0;
-            const isBreakable = updatedItems[index].ItemType === 'Breakable';
+            const isBreakable = updatedShipmentItems[index].ItemType === 'Breakable';
             const total = calculateCost(weight, volume, distance, isBreakable).toFixed(2);
-            updatedItems[index].Charge = total;
-            const overallCharge: string = updatedItems.reduce((sum, item) => sum + parseFloat(item.Charge || '0'), 0).toFixed(2);
-            const overallWeight = updatedItems.reduce((sum, item) => sum + parseFloat(item.Weight || '0'), 0).toFixed(2);
-            const overallVolume = updatedItems.reduce((sum, item) => sum + parseFloat(item.Volume || '0'), 0).toFixed(2);
+            updatedShipmentItems[index].Charge = total;
+            const overallCharge: string = updatedShipmentItems.reduce((sum, item) => sum + parseFloat(item.Charge || '0'), 0).toFixed(2);
+            const overallWeight = updatedShipmentItems.reduce((sum, item) => sum + parseFloat(item.Weight || '0'), 0).toFixed(2);
+            const overallVolume = updatedShipmentItems.reduce((sum, item) => sum + parseFloat(item.Volume || '0'), 0).toFixed(2);
             setFormData(prevFormData => ({
                 ...prevFormData,
-                items: updatedItems,
+                ShipmentItems: updatedShipmentItems,
                 OverallCharge: parseFloat(overallCharge.toString()),
                 OverallWeight: parseFloat(overallWeight.toString()),
                 OverallVolume: parseFloat(overallVolume.toString()),
@@ -226,8 +228,8 @@ const OrderForm: React.FC = () => {
     const handleAddItem = () => {
         setFormData(prevFormData => ({
             ...prevFormData,
-            items: [
-                ...prevFormData.items,
+            ShipmentItems: [
+                ...prevFormData.ShipmentItems,
                 {
                     ProductName: '',
                     ItemType: 'Durable',
@@ -242,7 +244,7 @@ const OrderForm: React.FC = () => {
     const handleRemoveItem = (indexToRemove: number) => {
         setFormData(prevState => ({
             ...prevState,
-            items: prevState.items.filter((item, index) => index !== indexToRemove)
+            ShipmentItems: prevState.ShipmentItems.filter((item, index) => index !== indexToRemove)
         }));
     };
 
@@ -322,7 +324,7 @@ const OrderForm: React.FC = () => {
                         <div>
                             <MapComponent onMapClick={handleMapUpdate}/>
                         </div>
-                        <div className="flex items-center space-x-4">
+                        <div className="flex ShipmentItems-center space-x-4">
                             <div className="mt-2.5 w-full">
                                 <input type="text" name="SenderAddress" id="pickUpAddress"
                                        autoComplete="given-name"
@@ -336,7 +338,7 @@ const OrderForm: React.FC = () => {
 
                             </div>
                         </div>
-                        <div className="flex items-center space-x-4">
+                        <div className="flex ShipmentItems-center space-x-4">
                             <div className="mt-2.5 w-full">
                                 <input type="text" name="RecipientAddress"
                                        id="deliveryAddress" autoComplete="given-name"
@@ -355,7 +357,7 @@ const OrderForm: React.FC = () => {
                     </div>
                     <div className="sm:col-span-3 md:col-span-2">
                         <label htmlFor="company"
-                               className="block text-sm font-semibold leading-6 text-gray-900">Items</label>
+                               className="block text-sm font-semibold leading-6 text-gray-900">ShipmentItems</label>
                         <div className="flex justify-first space-x-4 ">
                             <div className="mt-2.5 relative">
                                 <input type="text" name="Distance" id="distance"
@@ -388,16 +390,16 @@ const OrderForm: React.FC = () => {
                         </div>
 
                         {/*ITEM SECTION*/}
-                        {formData.items.map((item, index) => (
-                            <div key={index} className="flex items-center space-x-4">
+                        {formData.ShipmentItems.map((item, index) => (
+                            <div key={index} className="flex ShipmentItems-center space-x-4">
                                 <div className="mt-2.5 w-full">
-                                    <input type="text" name={`items.${index}.ProductName`} id="itemName"
+                                    <input type="text" name={`ShipmentItems.${index}.ProductName`} id="itemName"
                                            autoComplete="given-name"
                                            value={item.ProductName} onChange={handleChange}
                                            className="block w-full pl-6 border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                                 </div>
                                 <div className="mt-2.5 relative">
-                                    <select id="itemType" name={`items.${index}.ItemType`} autoComplete="driver"
+                                    <select id="itemType" name={`ShipmentItems.${index}.ItemType`} autoComplete="driver"
                                             value={item.ItemType} onChange={handleChange}
                                             className=" block bg-transparent pl-6 border-0 px-3.5 py-3 shadow-sm ring-1 ring-inset ring-gray-300  focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                                         {breakable.map((condition, index) => (
@@ -408,7 +410,7 @@ const OrderForm: React.FC = () => {
                                         className="fas fa-exclamation-triangle text-sm"></i></p>
                                 </div>
                                 <div className="mt-2.5 relative">
-                                    <input type="text" name={`items.${index}.Weight`} id="weight"
+                                    <input type="text" name={`ShipmentItems.${index}.Weight`} id="weight"
                                            value={item.Weight} onChange={handleChange}
                                            className="w-[150px] block  border-0 px-3.5 pl-7 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                                     <p className="absolute top-2 left-2 text-gray-400"><i
@@ -416,27 +418,27 @@ const OrderForm: React.FC = () => {
                                     </p>
                                 </div>
                                 <div className="mt-2.5 relative">
-                                    <input type="text" name={`items.${index}.Volume`} id="volume"
+                                    <input type="text" name={`ShipmentItems.${index}.Volume`} id="volume"
                                            value={item.Volume} onChange={handleChange}
                                            className="w-[150px] block  border-0 px-3.5 pl-7 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                                     <p className="absolute top-2 left-2 text-gray-400"><i className="fas fa-box"></i>
                                     </p>
                                 </div>
                                 <div className="mt-2.5 relative">
-                                    <input type="text" name={`items.${index}.Charge`} id="total"
+                                    <input type="text" name={`ShipmentItems.${index}.Charge`} id="total"
                                            value={item.Charge}
                                            onChange={handleChange}
                                            className="w-[150px] block  border-0 px-3.5 pl-5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                                     <p className="absolute top-2 left-2 text-gray-400">$</p>
                                 </div>
-                                {index === formData.items.length - 1 && (
+                                {index === formData.ShipmentItems.length - 1 && (
                                     <div className="mt-2.5 relative">
                                         <button className=" text-gray-400" onClick={handleAddItem}><i
                                             className="fas fa-plus"></i>
                                         </button>
                                     </div>
                                 )}
-                                {index !== formData.items.length - 1 && (
+                                {index !== formData.ShipmentItems.length - 1 && (
                                     <div className="mt-2.5 relative">
                                         <button className="text-gray-400" onClick={() => handleRemoveItem(index)}>
                                             <i className="fas fa-minus"></i>
