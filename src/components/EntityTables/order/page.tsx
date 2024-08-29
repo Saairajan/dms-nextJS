@@ -1,11 +1,10 @@
 "use client";
 
 
-import Link from "next/link";
 import {useEffect, useState} from "react";
 import OrderInfo from "@/components/OrderInfo";
-// import index from '../../components/OrderForm';
-// import OrderForm from "../../components/OrderForm";
+import axios from "axios";
+
 
 
 export default function Shipment() {
@@ -25,15 +24,26 @@ export default function Shipment() {
 
     const [orders, setOrders] = useState<Order[]>([]);
     useEffect(() => {
-        fetch('http://localhost:5025/Order')
-            .then(response => response.json())
-            .then(data => setOrders(data))
-            .catch(error => console.error('Error fetching orders:', error));
+            axios.get('http://localhost:5133/api/Shipment').then(response => {
+            const shipments = response.data.$values;
+            console.log("Data received from API:", shipments);
+            const proceedShipments = shipments.map((shipment: any) => ({
+                ...shipment,
+                shipmentItems: shipment.shipmentItems?.$values
+            })
+            );
+            console.log("shipment Items : ", proceedShipments);
+            setOrders(proceedShipments);
+
+            // setOrders(processedShipments);
+        }).catch(error => {
+            console.error('error fetching data in orders' + error);
+        })
     }, []);
 
     const deleteOrder = async (orderId: number) => {
         try {
-            const response = await fetch(`http://localhost:5025/Order/${orderId}`, {
+            const response = await fetch(`http://localhost:5133/api/Shipment/${orderId}`, {
                 method: 'DELETE',
             });
 
@@ -52,17 +62,17 @@ export default function Shipment() {
     };
 
 
-    const headers = ["ID", "Name", "Phone Number", "PickUp Time", "Delivery Time", "Items", "Status", "Driver", "Payment Status", "Actions"];
+    const headers = ["ID", "Recipient Name", "Phone Number", "PickUp Time", "Delivery Time", "Status", "Tracking Number", "Actions"];
 
 
     return (
-        <div className=" overflow-hidden">
+        <div className="overflow-hidden">
             {showOrderInfo &&
-                <div>
+                <div className="flex justify-center items-center">
                     <div onClick={() => setShowOrderInfo(false)}
                          className='absolute top-0 left-0 z-40 w-screen h-screen bg-black/20 '></div>
-                    <div className="absolute left-0 right-0 top-0 flex items-center justify-end ">
-                        <div className="bg-white z-50 rounded-lg shadow-md w-1/2">
+                    <div className="absolute top-3 flex">
+                        <div className="bg-white z-50 rounded-lg shadow-md w-full max-h-[90vh] overflow-y-auto">
                             <OrderInfo orderId={selectedOrderId}/>
                         </div>
                     </div>
@@ -73,7 +83,7 @@ export default function Shipment() {
                 <div
                     className="md:flex md:items-center md:justify-end bg-white shadow-md md:p-4 -mx-4 sm:-mx-6 md:-mx-8">
                     <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-                        <a href="/src/components/EntityForms/NewOrderForm">
+                        <a href="/order/newOrder">
                             <button type="button" onClick={toggleOrderForm}
                                     className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                                 <p>Add Order</p>
@@ -101,42 +111,33 @@ export default function Shipment() {
                                 <tbody className="divide-y divide-gray-200 bg-white">
                                 {orders.map((row, rowIndex) => (
                                     <tr key={rowIndex}>
-                                        <td className="whitespace-nowrap text-center text-sm font-medium text-gray-900 sm:pl-6 lg:pl-3">{row.id}</td>
-                                        <td className="whitespace-nowrap  py-4 text-sm text-gray-500 text-center">
-                                            <div className="flex justify-center items-center space-x-3">
-                                                <div>
-                                                    {row.firstName}
-                                                </div>
-                                                <div>
-                                                    {row.lastName}
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td className="whitespace-nowrap  py-4 text-sm text-gray-500 text-center">{row.phoneNo}</td>
-                                        <td className="whitespace-nowrap  py-4 text-sm text-gray-500 text-center">{row.pickUpTime}</td>
-                                        <td className="whitespace-nowrap  py-4 text-sm text-gray-500 text-center">{row.deliveryTime}</td>
-                                        <td className="whitespace-nowrap py-4 text-sm text-gray-500 text-center">
-                                            {row.items.map((item: any, index: number) => (
-                                                <div key={index}>{item.itemName}</div>
-                                            ))}
-                                        </td>
-                                        <td className="whitespace-nowrap  py-4 text-sm text-gray-500 text-center">{row.orderStatus}</td>
-                                        <td className="whitespace-nowrap  py-4 text-sm text-gray-500 text-center">{row.driverName}</td>
-                                        <td className="whitespace-nowrap  py-4 text-sm text-gray-500 text-center">{row.paymentStatus}</td>
+                                        <td className="whitespace-nowrap text-center text-sm font-medium text-gray-900 sm:pl-6 lg:pl-3">{row.shipmentId}</td>
+                                        <td className="whitespace-nowrap  py-4 text-sm text-gray-500 text-center">{row.recipientName}</td>
+                                        <td className="whitespace-nowrap  py-4 text-sm text-gray-500 text-center">{row.recipientPhone}</td>
+                                        <td className="whitespace-nowrap  py-4 text-sm text-gray-500 text-center">{row.sendingDate}</td>
+                                        <td className="whitespace-nowrap  py-4 text-sm text-gray-500 text-center">{row.receivingDate}</td>
+
+                                        {/*<td className="whitespace-nowrap py-4 text-sm text-gray-500 text-center">*/}
+                                        {/*    {row.shipmentItems.map((item: any, index: number) => (*/}
+                                        {/*        <div key={index}>{item.$id}</div>*/}
+                                        {/*    ))}*/}
+                                        {/*</td>*/}
+                                        <td className="whitespace-nowrap  py-4 text-sm text-gray-500 text-center">{row.shipmentStatus}</td>
+                                        <td className="whitespace-nowrap  py-4 text-sm text-gray-500 text-center">{row.trackingNumber}</td>
                                         <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6 lg:pr-2">
                                             <div className="flex justify-center items-center space-x-3">
                                                 <div></div>
-                                                <a href={`/NewOrderForm?id=${row.id}`}
+                                                <a href={`/NewOrderForm?id=${row.shipmentId}`}
                                                    className="text-indigo-600 hover:text-indigo-900"
                                                 >
                                                     <i className="fas fa-edit"></i><span
-                                                    className="sr-only">, {row.id}</span></a>
-                                                <a href="/src/components/EntityTables/order/page" className="text-indigo-600 hover:text-indigo-900"
-                                                   onClick={() => deleteOrder(Number(row.id))}><i
+                                                    className="sr-only">, {row.shipmentId}</span></a>
+                                                <a href="/order" className="text-indigo-600 hover:text-indigo-900"
+                                                   onClick={() => deleteOrder(Number(row.shipmentId))}><i
                                                     className="fas fa-trash-alt"></i><span
-                                                    className="sr-only">, {row.id}</span></a>
+                                                    className="sr-only">, {row.shipmentId}</span></a>
 
-                                                <button onClick={() => toggleOrderInfo(Number(row.id))}>
+                                                <button onClick={() => toggleOrderInfo(Number(row.shipmentId))}>
                                                     <i className="fas fa-info-circle text-blue-500"></i>
                                                 </button>
                                             </div>

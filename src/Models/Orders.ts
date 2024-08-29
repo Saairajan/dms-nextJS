@@ -1,18 +1,18 @@
 interface Order {
-    id: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    phoneNo: string;
-    pickUpAddress: string;
-    pickUpTime: string;
-    deliveryAddress: string;
-    deliveryTime: string;
-    items: Item[];
-    itemName: string;
-    total: number;
-    orderStatus: string;
-    driverName: string;
+    shipmentId: string;
+    recipientName: string;
+    recipientEmail: string;
+    recipientPhone: string;
+    senderAddress: string;
+    sendingDate: string;
+    recipientAddress: string;
+    receivingDate: string;
+    shipmentItems: ShipmentItem[];
+    productName: string;
+    charge: number;
+    shipmentStatus: string;
+    // driverName: string;
+    trackingNumber: string;
     distance: number;
     overallWeight: number;
     overallVolume: number;
@@ -20,13 +20,13 @@ interface Order {
     paymentStatus: string;
 }
 
-interface Item {
+interface ShipmentItem {
     id: number;
-    itemName: string;
+    productName: string;
     itemType: string;
     weight: string;
     volume: string;
-    total: string;
+    charge: string;
 }
 
 interface OrderFormProps {

@@ -177,7 +177,7 @@ export default function RootLayout({children,}: Readonly<{ children: React.React
                                             </a>
                                         </li>
                                         <li>
-                                            <Link href="/src/components/EntityTables/order/page"
+                                            <Link href="/order"
                                                   className="group flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white">
                                                 <svg className="h-6 w-6 shrink-0" fill="none" viewBox="0 0 24 24"
                                                      strokeWidth="1.5"

@@ -1,17 +1,41 @@
 import React, {useEffect, useState} from "react";
-import {it} from "node:test";
-import {router} from "next/client";
+import axios from "axios";
+import shipment from "@/app/order/page";
+
 
 
 const OrderForm: React.FC<OrderFormProps> = ({orderId}) => {
-        console.log('print order ID ' + typeof orderId);
+        console.log('print order ID type ' + typeof orderId);
+        console.log('print order ID ' + orderId);
         const [orders, setOrders] = useState<Order>();
+        const headers = ["Items", "Weight", "Volume", "Charge"];
+
+    // useEffect(() => {
+    //     axios.get('http://localhost:5133/api/Shipment').then(response => {
+    //         const shipments = response.data.$values;
+    //         console.log("Data received from API:", shipments);
+    //         const proceedShipments = shipments.map((shipment: any) => ({
+    //             ...shipment,
+    //             shipmentItems: shipment.shipmentItems?.$values
+    //         }));
+
 
         useEffect(() => {
             if (orderId) {
-                fetch(`http://localhost:5025/Order/${String(orderId)}`)
-                    .then(response => response.json())
-                    .then(data => setOrders(data))
+                console.log('receiving ID ' + orderId );
+                axios.get(`http://localhost:5133/api/Shipment/${String(orderId)}`)
+                    .then(response => {
+                        console.log('shipment Info: ' + JSON.stringify(response.data));
+                        const shipment = response.data;
+                        const proceedShipment = {
+                            ...shipment,
+                            shipmentItems: shipment.shipmentItems?.$values || []
+                        };
+
+                        // Set the processed shipment in state
+                        setOrders(proceedShipment);
+                    })
+
                     .catch(error => {
                         console.error('Error fetching order:', error);
                     });
@@ -20,108 +44,122 @@ const OrderForm: React.FC<OrderFormProps> = ({orderId}) => {
             }
         }, [orderId]);
 
-        console.log('order Data: ' + JSON.stringify(orders))
         return (
 
             <div
-                className="isolate  px-6 py-5 sm:py-5 lg:px-8  mx-3 grid grid-cols-1 md:grid-cols-2 gap-y-5 overflow-auto">
+                className=" py-5 sm:py-5 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-y-5">
 
-                <div className=" relative border-r-2 ml-3">
+                <div className="relative col-span-2">
                     <label htmlFor="lastName"
-                           className="block text-sm font-semibold leading-6 text-gray-900">Items</label>
-                    {orders?.items.map((item: any, itemIndex: any) => (
-                        <div key={itemIndex} className="mt-2.5 w-full">
-                            <div className="flex items-center justify-between mr-3">
-                                <div>
-                                    <p id="lastName"
-                                       className="block w-full  px-3.5 py-2 text-gray-900 shadow-sm  placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">{item.itemName}</p>
-                                </div>
-                                <div className="grid grid-cols-4 gap-5">
-                                    <div>{item.weight}</div>
-                                    <div>{item.volume}</div>
-                                    <div>{item.total}</div>
-                                    <div>{item.itemType}</div>
-                                </div>
+                           className="block text-lg font-semibold leading-6 text-gray-900">Item Lists</label>
+                    <table className="w-full mt-2.5 divide-y divide-gray-100 bg-white shadow-lg">
+                        <thead>
+                        <tr>
+                            {headers.map((header, index) => (
+                                <th
+                                    key={index}
+                                    scope="col"
+                                    className="py-3.5 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 lg:pl-8 "
+                                >
+                                    <div className="text-center pr-4">{header}</div>
+                                </th>
+                            ))}
+                        </tr>
+                        </thead>
+                        <tbody className="divide-y divide-gray-200 bg-white">
+                        {orders?.shipmentItems.map((item: any, itemIndex: any) => (
+                            <tr key={itemIndex}>
+                                <td className="whitespace-nowrap  py-4 text-sm text-gray-500 text-center">{item.productName}</td>
+                                <td className="whitespace-nowrap  py-4 text-sm text-gray-500 text-center">{item.weight}</td>
+                                <td className="whitespace-nowrap  py-4 text-sm text-gray-500 text-center">{item.volume}</td>
+                                <td className="whitespace-nowrap  py-4 text-sm text-gray-500 text-center">{item.charge}</td>
+                            </tr>
+                        ))}
+                        </tbody>
+                    </table>
+                </div>
+                <div className="grid col-span-2 grid-cols-2 gap-5 py-3">
+                    <div className="py-3">
+                        <div className="relative w-ful">
+                            <label
+                                className="block text-sm font-semibold leading-6 text-gray-900">PickUp point</label>
+                            <div>
+                                <p id="lastName"
+                                   className="block mt-2.5 w-full border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">{orders?.senderAddress}</p>
                             </div>
                         </div>
-                    ))}
+                        <div className=" relative w-full ">
+                            <label
+                                className="block text-sm font-semibold leading-6 text-gray-900">PickUp Time</label>
+                            <div>
+                                <p id="lastName"
+                                   className="block mt-2.5 w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">{orders?.sendingDate}</p>
+                            </div>
+                        </div>
+                        <div className="relative w-full">
+                            <label
+                                className="block text-sm font-semibold leading-6 text-gray-900">Delivery point</label>
+                            <div>
+                                <p id="lastName"
+                                   className="block mt-2.5 w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">{orders?.recipientAddress}</p>
+                            </div>
+                        </div>
+                        <div className=" relative w-full">
+                            <label
+                                className="block text-sm font-semibold leading-6 text-gray-900">Delivery Time</label>
+                            <div>
+                                <p id="lastName"
+                                   className="block mt-2.5 w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">{orders?.receivingDate}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="py-3">
+                        <div className="relative w-full">
+                            <label
+                                className="block mt-2.5 text-sm font-semibold leading-6 text-gray-900">Distance</label>
+                            <div>
+                                <p id="lastName"
+                                   className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">{orders?.distance}</p>
+                            </div>
+                        </div>
+                        <div className=" relative w-full">
+                            <label
+                                className="block mt-2.5 text-sm font-semibold leading-6 text-gray-900">Volume</label>
+                            <div>
+                                <p id="lastName"
+                                   className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">{orders?.overallVolume}</p>
+                            </div>
+                        </div>
+                        <div className=" relative w-full">
+                            <label
+                                className="block mt-2.5 text-sm font-semibold leading-6 text-gray-900">OverallWeight</label>
+                            <div>
+                                <p id="lastName"
+                                   className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">{orders?.overallWeight}</p>
+                            </div>
+                        </div>
+                        <div className=" relative w-full">
+                            <label
+                                className="block mt-2.5 text-sm font-semibold leading-6 text-gray-900">Overall
+                                Charge</label>
+                            <div>
+                                <p id="lastName"
+                                   className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">{orders?.overallCharge}</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div className=" relative">
+                <div className="col-span-2">
                     <label htmlFor="lastName"
-                           className="block text-sm font-semibold leading-6 text-gray-900">Overall Order</label>
-                    <div className="mt-2.5 w-1/2">
-                        <div className="flex items-center justify-between space-x-5">
-                            <div>
-                                <p id="lastName"
-                                   className="block w-full px-3.5 py-2 text-gray-900 shadow-sm  placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">Distance</p>
-                            </div>
-                            <div>{orders?.distance}</div>
-                        </div>
-                        <div className="flex items-center justify-between space-x-5">
-                            <div>
-                                <p id="lastName"
-                                   className="block w-full  px-3.5 py-2 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">Volume</p>
-                            </div>
-                            <div>{orders?.overallVolume}</div>
-                        </div>
-                        <div className="flex items-center justify-between space-x-5">
-                            <div>
-                                <p id="lastName"
-                                   className="block w-full  px-3.5 py-2 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">Weight</p>
-                            </div>
-                            <div>{orders?.overallWeight}</div>
-                        </div>
-                        <div className="flex items-center justify-between space-x-5">
-                            <div>
-                                <p id="lastName"
-                                   className="block w-full  px-3.5 py-2 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">Weight</p>
-                            </div>
-                            <div>{orders?.overallWeight}</div>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-span-2 grid gap-5 ">
-                    <div className=" relative">
-                        <label
-                            className="block text-sm font-semibold leading-6 text-gray-900">PickUp point</label>
-                        <div>
-                            <p id="lastName"
-                               className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">{orders?.pickUpAddress}</p>
-                        </div>
-                    </div>
-                    <div className=" relative w-full md:w-1/2">
-                        <label
-                            className="block text-sm leading-6 text-gray-900">PickUp Time</label>
-                        <div>
-                            <p id="lastName"
-                               className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">{orders?.pickUpTime}</p>
-                        </div>
-                    </div>
-                    <div className=" relative">
-                        <label
-                            className="block text-sm font-semibold leading-6 text-gray-900">Delivery point</label>
-                        <div>
-                            <p id="lastName"
-                               className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">{orders?.deliveryAddress}</p>
-                        </div>
-                    </div>
-                    <div className=" relative w-full md:w-1/2">
-                        <label
-                            className="block text-sm leading-6 text-gray-900">Delivery Time</label>
-                        <div>
-                            <p id="lastName"
-                               className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">{orders?.deliveryTime}</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-span-2 border-t-3 border p-3 ">
-                    <nav aria-label="Progress">
-                        <ol role="list" className="overflow-hidden">
-                            <li className="relative pb-10">
-                                <div className="absolute left-4 top-4 -ml-px mt-0.5 h-full w-0.5 bg-indigo-600"
-                                     aria-hidden="true"></div>
-                                {/*Complete Step*/}
-                                <a href="#" className="group relative flex items-start">
+                           className="block text-lg font-semibold leading-6 text-gray-900">Item Lists</label>
+                    <div className="border-t-3 border p-3 ">
+                        <nav aria-label="Progress">
+                            <ol role="list" className="overflow-hidden">
+                                <li className="relative pb-10">
+                                    <div className="absolute left-4 top-4 -ml-px mt-0.5 h-full w-0.5 bg-indigo-600"
+                                         aria-hidden="true"></div>
+                                    {/*Complete Step*/}
+                                    <a href="#" className="group relative flex items-start">
                                     <span className="flex h-9 items-center">
                                       <span
                                           className="relative z-10 flex h-8 w-8 items-center justify-center rounded-full bg-indigo-600 group-hover:bg-indigo-800">
@@ -133,34 +171,34 @@ const OrderForm: React.FC<OrderFormProps> = ({orderId}) => {
                                         </svg>
                                       </span>
                                     </span>
-                                    <span className="ml-4 flex min-w-0 flex-col">
+                                        <span className="ml-4 flex min-w-0 flex-col">
                                       <span className="text-sm font-medium">Order is received</span>
                                       <span className="text-sm text-gray-500">Vitae sed mi luctus laoreet.</span>
                                     </span>
-                                </a>
-                            </li>
-                            <li className="relative pb-10">
-                                <div className="absolute left-4 top-4 -ml-px mt-0.5 h-full w-0.5 bg-gray-300"
-                                     aria-hidden="true"></div>
-                                {/*Current Step*/}
-                                <a href="#" className="group relative flex items-start" aria-current="step">
+                                    </a>
+                                </li>
+                                <li className="relative pb-10">
+                                    <div className="absolute left-4 top-4 -ml-px mt-0.5 h-full w-0.5 bg-gray-300"
+                                         aria-hidden="true"></div>
+                                    {/*Current Step*/}
+                                    <a href="#" className="group relative flex items-start" aria-current="step">
                                     <span className="flex h-9 items-center" aria-hidden="true">
                                       <span
                                           className="relative z-10 flex h-8 w-8 items-center justify-center rounded-full border-2 border-indigo-600 bg-white">
                                         <span className="h-2.5 w-2.5 rounded-full bg-indigo-600"></span>
                                       </span>
                                     </span>
-                                    <span className="ml-4 flex min-w-0 flex-col">
+                                        <span className="ml-4 flex min-w-0 flex-col">
                                       <span className="text-sm font-medium text-indigo-600">Processing</span>
                                       <span className="text-sm text-gray-500">Cursus semper viverra facilisis et et some more.</span>
                                     </span>
-                                </a>
-                            </li>
-                            <li className="relative pb-10">
-                                <div className="absolute left-4 top-4 -ml-px mt-0.5 h-full w-0.5 bg-gray-300"
-                                     aria-hidden="true"></div>
-                                {/*Upcoming Step*/}
-                                <a href="#" className="group relative flex items-start">
+                                    </a>
+                                </li>
+                                <li className="relative pb-10">
+                                    <div className="absolute left-4 top-4 -ml-px mt-0.5 h-full w-0.5 bg-gray-300"
+                                         aria-hidden="true"></div>
+                                    {/*Upcoming Step*/}
+                                    <a href="#" className="group relative flex items-start">
                                     <span className="flex h-9 items-center" aria-hidden="true">
                                       <span
                                           className="relative z-10 flex h-8 w-8 items-center justify-center rounded-full border-2 border-gray-300 bg-white group-hover:border-gray-400">
@@ -168,17 +206,17 @@ const OrderForm: React.FC<OrderFormProps> = ({orderId}) => {
                                             className="h-2.5 w-2.5 rounded-full bg-transparent group-hover:bg-gray-300"></span>
                                       </span>
                                     </span>
-                                    <span className="ml-4 flex min-w-0 flex-col">
+                                        <span className="ml-4 flex min-w-0 flex-col">
                                       <span className="text-sm font-medium text-gray-500">Preparing your Order for Delivery</span>
                                       <span className="text-sm text-gray-500">Penatibus eu quis ante.</span>
                                     </span>
-                                </a>
-                            </li>
-                            <li className="relative pb-10">
-                                <div className="absolute left-4 top-4 -ml-px mt-0.5 h-full w-0.5 bg-gray-300"
-                                     aria-hidden="true"></div>
-                                {/*Upcoming Step*/}
-                                <a href="#" className="group relative flex items-start">
+                                    </a>
+                                </li>
+                                <li className="relative pb-10">
+                                    <div className="absolute left-4 top-4 -ml-px mt-0.5 h-full w-0.5 bg-gray-300"
+                                         aria-hidden="true"></div>
+                                    {/*Upcoming Step*/}
+                                    <a href="#" className="group relative flex items-start">
                                     <span className="flex h-9 items-center" aria-hidden="true">
                                       <span
                                           className="relative z-10 flex h-8 w-8 items-center justify-center rounded-full border-2 border-gray-300 bg-white group-hover:border-gray-400">
@@ -186,17 +224,17 @@ const OrderForm: React.FC<OrderFormProps> = ({orderId}) => {
                                             className="h-2.5 w-2.5 rounded-full bg-transparent group-hover:bg-gray-300"></span>
                                       </span>
                                     </span>
-                                    <span className="ml-4 flex min-w-0 flex-col">
+                                        <span className="ml-4 flex min-w-0 flex-col">
                                       <span className="text-sm font-medium text-gray-500">Out for Delivery</span>
                                       <span className="text-sm text-gray-500">Faucibus nec enim leo et.</span>
                                     </span>
-                                </a>
-                            </li>
-                            <li className="relative pb-10">
-                                <div className="absolute left-4 top-4 -ml-px mt-0.5 h-full w-0.5 bg-gray-300"
-                                     aria-hidden="true"></div>
-                                {/*Upcoming Step*/}
-                                <a href="#" className="group relative flex items-start">
+                                    </a>
+                                </li>
+                                <li className="relative pb-10">
+                                    <div className="absolute left-4 top-4 -ml-px mt-0.5 h-full w-0.5 bg-gray-300"
+                                         aria-hidden="true"></div>
+                                    {/*Upcoming Step*/}
+                                    <a href="#" className="group relative flex items-start">
                                     <span className="flex h-9 items-center" aria-hidden="true">
                                       <span
                                           className="relative z-10 flex h-8 w-8 items-center justify-center rounded-full border-2 border-gray-300 bg-white group-hover:border-gray-400">
@@ -204,15 +242,15 @@ const OrderForm: React.FC<OrderFormProps> = ({orderId}) => {
                                             className="h-2.5 w-2.5 rounded-full bg-transparent group-hover:bg-gray-300"></span>
                                       </span>
                                     </span>
-                                    <span className="ml-4 flex min-w-0 flex-col">
+                                        <span className="ml-4 flex min-w-0 flex-col">
                                       <span className="text-sm font-medium text-gray-500">Arrived to Destination</span>
                                       <span className="text-sm text-gray-500">Iusto et officia maiores porro ad non quas.</span>
                                     </span>
-                                </a>
-                            </li>
-                            <li className="relative ">
-                                {/*Upcoming Step*/}
-                                <a href="#" className="group relative flex items-start">
+                                    </a>
+                                </li>
+                                <li className="relative ">
+                                    {/*Upcoming Step*/}
+                                    <a href="#" className="group relative flex items-start">
                                     <span className="flex h-9 items-center" aria-hidden="true">
                                       <span
                                           className="relative z-10 flex h-8 w-8 items-center justify-center rounded-full border-2 border-gray-300 bg-white group-hover:border-gray-400">
@@ -220,15 +258,16 @@ const OrderForm: React.FC<OrderFormProps> = ({orderId}) => {
                                             className="h-2.5 w-2.5 rounded-full bg-transparent group-hover:bg-gray-300"></span>
                                       </span>
                                     </span>
-                                    <span className="ml-4 flex min-w-0 flex-col">
+                                        <span className="ml-4 flex min-w-0 flex-col">
                                       <span className="text-sm font-medium text-gray-500">Order Delivered</span>
                                       <span className="text-sm text-gray-500">Iusto et officia maiores porro ad non quas.</span>
                                     </span>
-                                </a>
-                            </li>
-                        </ol>
-                    </nav>
+                                    </a>
+                                </li>
+                            </ol>
+                        </nav>
 
+                    </div>
                 </div>
             </div>
         );

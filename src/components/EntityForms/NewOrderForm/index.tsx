@@ -26,15 +26,6 @@ const OrderForm: React.FC = () => {
 
     ];
 
-    type Item = {
-        itemName: string;
-        itemType: string;
-        weight: string;
-        volume: string;
-        total: string;
-    };
-
-
     const [formData, setFormData] = useState({
         RecipientName: '',
         RecipientPhone: '',
