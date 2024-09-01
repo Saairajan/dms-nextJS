@@ -4,6 +4,7 @@ import axios from "axios";
 // const API_BASE_URL = 'http://localhost:5025/api';
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5001/api';
 const API_CUSTOMER_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5280/api';
+const API_URL = 'http://localhost:5001/api/Role';
 
 // Function to handle user registration
 export const registerUser = async (userData: {
@@ -17,6 +18,7 @@ export const registerUser = async (userData: {
     Province: string;
     City: string;
     Password: string;
+    roleId: number,
 
 }) => {
     try {
@@ -96,3 +98,27 @@ export const loginCustomer = async (loginData: {
         throw error;
     }
 };
+
+
+export interface Role {
+    roleId: number;
+    roleName: string;
+}
+
+
+// Function to fetch roles from the API
+export const fetchRoles = async (): Promise<Role[]> => {
+    try {
+        const response = await axios.get<Role[]>(API_URL, {
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        console.log('Fetched roles:', response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching roles:', error);
+        throw error; // Rethrow the error to handle it where the function is called
+    }
+};
+

@@ -6,12 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="3e79bc25-426e-44f5-b6c2-bcc1a378c3c4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Models/Orders.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Models/Orders.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Services/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/Services/api.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/EntityForms/NewOrderForm/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/EntityForms/NewOrderForm/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Auth/RegisterForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Auth/RegisterForm.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/EntityTables/order/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/EntityTables/order/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/OrderInfo.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/OrderInfo.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/recipient/index.tsx" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -29,7 +28,7 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Remnant12/DOMS.git&quot;,
+    &quot;url&quot;: &quot;https://github.com/Remnant12/dms-nextJS.git&quot;,
     &quot;accountId&quot;: &quot;1c27f65c-1178-4b65-b5dd-2b370ef9c6f0&quot;
   }
 }</component>
@@ -41,21 +40,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/saai/Documents/Projects/portfolioWeb",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.keymap",
-    "ts.external.directory.path": "/home/saai/Documents/Projects/DMS/dms-nextJS/node_modules/typescript/lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/saai/Documents/Projects/portfolioWeb&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/home/saai/Documents/Work/OurOWn/github/dms-nextJS/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/components/EntityTables" />
@@ -68,7 +67,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-1d06a55b98c1-91d5c284f522-JavaScript-WS-241.15989.105" />
+        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-WS-242.21829.149" />
       </set>
     </attachedChunks>
   </component>
@@ -118,6 +117,9 @@
       <workItem from="1724165730263" duration="40710000" />
       <workItem from="1724496260316" duration="3796000" />
       <workItem from="1724950674815" duration="82000" />
+      <workItem from="1724956726521" duration="1507000" />
+      <workItem from="1725187497708" duration="8060000" />
+      <workItem from="1725216812266" duration="6211000" />
     </task>
     <servers />
   </component>

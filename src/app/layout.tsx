@@ -14,7 +14,7 @@ let isOpen: boolean = false;
 
 export default function RootLayout({children,}: Readonly<{ children: React.ReactNode; }>) {
     const pathname = usePathname() || "";
-    const noSidebarPaths = ['/admin/login', '/admin/register', '/login', '/register'];
+    const noSidebarPaths = ['/admin/login', '/login', '/register'];
     const shouldRenderSidebar = !noSidebarPaths.includes(pathname);
 
     return (

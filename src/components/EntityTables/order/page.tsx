@@ -68,11 +68,11 @@ export default function Shipment() {
     return (
         <div className="overflow-hidden">
             {showOrderInfo &&
-                <div className="flex justify-center items-center">
+                <div className="flex justify-end items-center">
                     <div onClick={() => setShowOrderInfo(false)}
                          className='absolute top-0 left-0 z-40 w-screen h-screen bg-black/20 '></div>
                     <div className="absolute top-3 flex">
-                        <div className="bg-white z-50 rounded-lg shadow-md w-full max-h-[90vh] overflow-y-auto">
+                        <div className="bg-white z-50 shadow-md w-full max-h-[95vh] overflow-y-auto">
                             <OrderInfo orderId={selectedOrderId}/>
                         </div>
                     </div>
@@ -85,8 +85,8 @@ export default function Shipment() {
                     <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
                         <a href="/order/newOrder">
                             <button type="button" onClick={toggleOrderForm}
-                                    className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                                <p>Add Order</p>
+                                    className="block bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                                <p> Add Order </p>
                             </button>
                         </a>
                     </div>

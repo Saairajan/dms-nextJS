@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
-import {registerUser} from "@/Services/api";
+import {fetchRoles, registerUser, Role} from "@/Services/api";
 import {useRouter, useSearchParams} from "next/navigation";
 
 
@@ -13,6 +13,7 @@ const RegisterForm: React.FC = () => {
     const id = searchParams?.get('id');
     const [showForm, setShowForm] = useState(true);
     const [rePassword, setRePassword] = useState('');
+    const [roles, setRoles] = useState<Role[]>([]);
 
     const [formData, setFormData] = useState({
         FirstName: '',
@@ -25,6 +26,7 @@ const RegisterForm: React.FC = () => {
         Province: '',
         City: '',
         Password: '',
+        roleId: 0,
     });
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -55,10 +57,11 @@ const RegisterForm: React.FC = () => {
                     Province: '',
                     City: '',
                     Password: '',
+                    roleId: 0,
                 });
                 setShowForm(false);
             } else {
-                console.error(`Failed to ${isUpdating ? 'update' : 'create'} order:`, await response.data);
+                console.error(`Failed to ${isUpdating ? 'update' : 'create'} user:`, await response.data);
                 // Handle error scenario: show error message to user
             }
         } catch (error) {
@@ -69,9 +72,11 @@ const RegisterForm: React.FC = () => {
 
     const handleChange = (e: any) => {
         const { name, value } = e.target;
+        console.log(`Selected ${name}: ${value}`);
+        const newValue = name === 'roleId' ? parseInt(value, 10) : value;
         setFormData({
             ...formData,
-            [name]: value,
+            [name]: newValue,
         });
     };
 
@@ -79,8 +84,20 @@ const RegisterForm: React.FC = () => {
         setRePassword(e.target.value);
     };
 
+    useEffect(() => {
+        const loadRoles = async () => {
+            try {
+                const fetchedRoles = await fetchRoles();
+                setRoles(fetchedRoles);
+            } catch (error) {
+                console.error('Failed to fetch roles');
+            }
+        };
+        loadRoles();
+    }, []);
+
     return (
-        <div className="isolate bg-gray-100 shadow-md px-6 py-5 my-5 sm:py-5 lg:px-8 md:w-full rounded-lg  w-full max-w-4xl mx-auto">
+        <div className="isolate bg-gray-100 shadow-md px-6 py-5 sm:py-5 lg:px-8 md:w-full rounded-lg overflow-hidden mx-auto">
             <div className="mx-auto text-left">
                 <h2 className="text-lg tracking-tight text-gray-900 sm:text-4xl">Registration Form</h2>
             </div>
@@ -91,7 +108,8 @@ const RegisterForm: React.FC = () => {
                         <label htmlFor="first-name" className="block text-sm font-semibold leading-6 text-gray-900">First
                             name</label>
                         <div className="mt-2.5">
-                            <input type="text" name="FirstName" id="FirstName" autoComplete="given-name" onChange={handleChange}
+                            <input type="text" name="FirstName" id="FirstName" autoComplete="given-name"
+                                   onChange={handleChange}
                                    className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                         </div>
                     </div>
@@ -99,7 +117,8 @@ const RegisterForm: React.FC = () => {
                         <label htmlFor="last-name" className="block text-sm font-semibold leading-6 text-gray-900">Last
                             name</label>
                         <div className="mt-2.5">
-                            <input type="text" name="LastName" id="LastName" autoComplete="family-name" onChange={handleChange}
+                            <input type="text" name="LastName" id="LastName" autoComplete="family-name"
+                                   onChange={handleChange}
                                    className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                         </div>
                     </div>
@@ -123,14 +142,15 @@ const RegisterForm: React.FC = () => {
                                     <option>CA</option>
                                     <option>EU</option>
                                 </select>
-                                <svg className="pointer-events-none absolute right-3 top-0 h-full w-5 text-gray-400"
-                                     viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path fill-rule="evenodd"
-                                          d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                                          clip-rule="evenodd"/>
-                                </svg>
+                                {/*<svg className="pointer-events-none absolute right-3 top-0 h-full w-5 text-gray-400"*/}
+                                {/*     viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">*/}
+                                {/*    <path fill-rule="evenodd"*/}
+                                {/*          d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"*/}
+                                {/*          clip-rule="evenodd"/>*/}
+                                {/*</svg>*/}
                             </div>
-                            <input type="text" name="PhoneNumber" id="PhoneNumber" autoComplete="tel" onChange={handleChange}
+                            <input type="text" name="PhoneNumber" id="PhoneNumber" autoComplete="tel"
+                                   onChange={handleChange}
                                    className="block w-full  border-0 px-3.5 py-2 pl-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                         </div>
                     </div>
@@ -151,15 +171,17 @@ const RegisterForm: React.FC = () => {
                         <div className="mt-2.5">
                             <label htmlFor="company"
                                    className="block text-sm leading-6 text-gray-900">Country</label>
-                            <input type="text" name="Country" id="Country" autoComplete="organization" onChange={handleChange}
+                            <input type="text" name="Country" id="Country" autoComplete="organization"
+                                   onChange={handleChange}
                                    className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                         </div>
-                        <div className=" grid grid-cols-1 md:grid-cols-2 gap-3 mt-3">
+                        <div className=" grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 mt-3">
                             <div>
                                 <label htmlFor="company"
                                        className="block text-sm leading-6 text-gray-900">Province</label>
                                 <div className="mt-2.5">
-                                    <input type="text" name="Province" id="Province" autoComplete="organization" onChange={handleChange}
+                                    <input type="text" name="Province" id="Province" autoComplete="organization"
+                                           onChange={handleChange}
                                            className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                                 </div>
                             </div>
@@ -167,7 +189,8 @@ const RegisterForm: React.FC = () => {
                                 <label htmlFor="company"
                                        className="block text-sm leading-6 text-gray-900">City</label>
                                 <div className="mt-2.5">
-                                    <input type="text" name="City" id="City" autoComplete="organization" onChange={handleChange}
+                                    <input type="text" name="City" id="City" autoComplete="organization"
+                                           onChange={handleChange}
                                            className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                                 </div>
                             </div>
@@ -175,19 +198,125 @@ const RegisterForm: React.FC = () => {
                                 <label htmlFor="company"
                                        className="block text-sm leading-6 text-gray-900">Postal</label>
                                 <div className="mt-2.5">
-                                    <input type="text" name="PostalCode" id="PostalCode" autoComplete="organization" onChange={handleChange}
+                                    <input type="text" name="PostalCode" id="PostalCode" autoComplete="organization"
+                                           onChange={handleChange}
                                            className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div className="sm:col-span-2">
+                        <div>
+                            <label htmlFor="company"
+                                   className="block text-sm font-semibold leading-6 text-gray-900">Roles</label>
+                            <select id="roleId"
+                                    name="roleId"
+                                    onChange={handleChange}
+                                    value={formData.roleId}
+                                    className="block w-full bg-white  border-0 px-3.5 py-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
+                                {roles.map((role: any) => (
+                                    <option key={role.roleId} value={role.roleId} className="p-4">
+                                        {role.roleName}
+                                    </option>
+                                ))};
+                            </select>
+                        </div>
+                    </div>
+                    {formData.roleId === 3 && (
+                        <div className="sm:col-span-2">
+                            <label htmlFor="company"
+                                   className="block text-sm font-semibold leading-6 text-gray-900">Driver
+                                Session</label>
+                            <div className=" grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 mt-3">
+                                <div className="mt-2.5">
+                                    <label htmlFor="company"
+                                           className="block text-sm leading-6 text-gray-900">license Number</label>
+                                    <input type="text" name="licenseNumber" id="licenseNumber"
+                                           autoComplete="organization"
+                                           onChange={handleChange}
+                                           className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+                                </div>
+                                <div>
+                                    <label htmlFor="company"
+                                           className="block text-sm leading-6 text-gray-900">License Expirations Date</label>
+                                    <div className="mt-2.5">
+                                        <input type="datetime-local" name="licenseExpirationDate" id="licenseExpirationDate"
+                                               autoComplete="organization"
+                                               onChange={handleChange}
+                                               className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label htmlFor="company"
+                                           className="block text-sm leading-6 text-gray-900">Years of Experience</label>
+                                    <div className="mt-2.5">
+                                        <input type="text" name="yearsOfExperience" id="yearsOfExperience"
+                                               autoComplete="organization"
+                                               onChange={handleChange}
+                                               className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label htmlFor="company"
+                                           className="block text-sm leading-6 text-gray-900">Date of Hire</label>
+                                    <div className="mt-2.5">
+                                        <input type="datetime-local" name="dateOfHire" id="dateOfHire" autoComplete="organization"
+                                               onChange={handleChange}
+                                               className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label htmlFor="company"
+                                           className="block text-sm leading-6 text-gray-900">Emergency Contact</label>
+                                    <div className="mt-2.5">
+                                        <input type="text" name="emergencyContact" id="emergencyContact"
+                                               autoComplete="organization"
+                                               onChange={handleChange}
+                                               className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label htmlFor="company"
+                                           className="block text-sm leading-6 text-gray-900">Shift Starting time</label>
+                                    <div className="mt-2.5">
+                                        <input type="datetime-local" name="shiftStartTime" id="shiftStartTime"
+                                               autoComplete="organization"
+                                               onChange={handleChange}
+                                               className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label htmlFor="company"
+                                           className="block text-sm leading-6 text-gray-900">Shift Ending Time</label>
+                                    <div className="mt-2.5">
+                                        <input type="datetime-local" name="shiftEndTime" id="shiftEndTime"
+                                               autoComplete="organization"
+                                               onChange={handleChange}
+                                               className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label htmlFor="company"
+                                           className="block text-sm leading-6 text-gray-900">Availability</label>
+                                    <div className="mt-2.5">
+                                        <input type="text" name="availabilityStatus" id="availabilityStatus"
+                                               autoComplete="organization"
+                                               onChange={handleChange}
+                                               className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    )}
+                    <div className="sm:col-span-2">
                         <label htmlFor="email"
                                className="block text-sm font-semibold leading-6 text-gray-900">Password Session</label>
                         <div className="mt-2.5">
                             <label htmlFor="email"
                                    className="block text-sm leading-6 text-gray-900">Password</label>
-                            <input type="password" name="Password" id="Password" autoComplete="Password" onChange={handleChange}
+                            <input type="password" name="Password" id="Password" autoComplete="Password"
+                                   onChange={handleChange}
                                    className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                         </div>
                     </div>
@@ -195,7 +324,8 @@ const RegisterForm: React.FC = () => {
                         <label htmlFor="email"
                                className="block text-sm leading-6 text-gray-900">Re-Enter Password</label>
                         <div className="mt-2.5">
-                            <input type="password" name="Re-Password" id="Re-Password" autoComplete="email" onChange={handleRePasswordChange}
+                            <input type="password" name="Re-Password" id="Re-Password" autoComplete="email"
+                                   onChange={handleRePasswordChange}
                                    className="block w-full  border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                         </div>
                     </div>
